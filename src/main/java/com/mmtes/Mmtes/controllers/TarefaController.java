@@ -1,7 +1,7 @@
 package com.mmtes.Mmtes.controllers;
 
-import com.mmtes.Mmtes.dtos.TarefaCreateDTO;
-import com.mmtes.Mmtes.dtos.TarefaDTO;
+import com.mmtes.Mmtes.dtos.TarefaRequestDTO;
+import com.mmtes.Mmtes.dtos.TarefaResponseDTO;
 import com.mmtes.Mmtes.models.entities.Tarefa;
 import com.mmtes.Mmtes.services.TarefaService;
 
@@ -20,29 +20,29 @@ public class TarefaController {
     private TarefaService service;
 
     @PostMapping
-    public TarefaDTO criar(@RequestBody TarefaCreateDTO dto) {
+    public TarefaResponseDTO criar(@RequestBody TarefaRequestDTO dto) {
         Tarefa tarefa = new Tarefa();
-        tarefa.setIdUsuario(dto.idUsuario());
+        tarefa.setUsuario(dto.idUsuario());
         tarefa.setTitulo(dto.titulo());
         tarefa.setDescricao(dto.descricao());
         tarefa.setPrioridade(dto.prioridade());
         tarefa.setPrazo(dto.prazo());
         tarefa.setConcluida(false);
-        return toDTO(service.criar(tarefa));
+        return toDTO(service.criarTarefa(tarefa));
     }
 
     @GetMapping
-    public List<TarefaDTO> listar() {
+    public List<TarefaResponseDTO> listar() {
         return service.listarTodas().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Optional<TarefaDTO> buscarPorId(@PathVariable Long id) {
+    public Optional<TarefaResponseDTO> buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id).map(this::toDTO);
     }
 
     @PutMapping("/{id}")
-    public Optional<TarefaDTO> atualizar(@PathVariable Long id, @RequestBody TarefaCreateDTO dto) {
+    public Optional<TarefaResponseDTO> atualizar(@PathVariable Long id, @RequestBody TarefaRequestCreateDTO dto) {
         Tarefa t = new Tarefa();
         t.setIdUsuario(dto.idUsuario());
         t.setTitulo(dto.titulo());

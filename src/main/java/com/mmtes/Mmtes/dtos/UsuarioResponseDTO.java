@@ -10,7 +10,7 @@ public record UsuarioResponseDTO(
     String email,
     LocalDateTime dataCadastro
 ) {
-    public UsuarioResponseDTO(Usuario usuarioDTO){
-        this(usuarioDTO.getId_usuario(), usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getDataCadastro());
+    public UsuarioResponseDTO(Usuario usuario){
+        this(usuario.getId_usuario(), usuario.getNome(), usuario.getEmail(), usuario.getDataCadastro());
     }
 }
