@@ -1,66 +1,42 @@
 package com.mmtes.Mmtes.controllers;
 
-import com.mmtes.Mmtes.dtos.UsuarioCreateDTO;
-import com.mmtes.Mmtes.dtos.UsuarioDTO;
+
+import com.mmtes.Mmtes.dtos.UsuarioRequestDTO;
+import com.mmtes.Mmtes.dtos.UsuarioResponseDTO;
 import com.mmtes.Mmtes.models.entities.Usuario;
-import com.mmtes.Mmtes.services.UsuarioService;
+import com.mmtes.Mmtes.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("usuario")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService service;
+    private UsuarioRepository repository;
 
+    @CrossOrigin(origins = "*", allowCredentials = "false")
     @PostMapping
-    public UsuarioDTO criar(@RequestBody UsuarioCreateDTO dto) {
-        Usuario novo = new Usuario();
-        novo.setNome(dto.nome());
-        novo.setEmail(dto.email());
-        novo.setSenha(dto.senha());
-        return toDTO(service.criarUsuario(novo));
+    public void saveUsuario(@RequestBody UsuarioRequestDTO data){
+        Usuario usuarioData = new Usuario(data);
+        repository.save(usuarioData);
+        return;
     }
 
+    @CrossOrigin(origins = "*", allowCredentials = "false")
     @GetMapping
-    public List<UsuarioDTO> listar() {
-        return service.listarUsuarios()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-    }
+    public List<UsuarioResponseDTO> getAll(){
 
-    @GetMapping("/{id}")
-    public Optional<UsuarioDTO> buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id).map(this::toDTO);
-    }
-
-    @PutMapping("/{id}")
-    public Optional<UsuarioDTO> atualizar(@PathVariable Long id, @RequestBody UsuarioCreateDTO dto) {
-        Usuario u = new Usuario();
-        u.setNome(dto.nome());
-        u.setEmail(dto.email());
-        u.setSenha(dto.senha());
-        return service.atualizarUsuario(id, u).map(this::toDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
-        service.deletarUsuario(id);
-    }
-
-    private UsuarioDTO toDTO(Usuario usuario) {
-        return new UsuarioDTO(
-                usuario.getId_usuario(),
-                usuario.getNome(),
-                usuario.getEmail(),
-                usuario.getDataCadastro()
-        );
+        List<UsuarioResponseDTO> usuariosList = repository.findAll().stream()
+        .map(UsuarioResponseDTO::new).toList();
+        return usuariosList;
     }
 }
