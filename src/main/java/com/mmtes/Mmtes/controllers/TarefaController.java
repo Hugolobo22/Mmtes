@@ -2,8 +2,11 @@ package com.mmtes.Mmtes.controllers;
 
 import java.util.List;
 
+import com.mmtes.Mmtes.models.entities.Usuario;
+import com.mmtes.Mmtes.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +29,20 @@ import jakarta.validation.Valid;
 public class TarefaController {
 
     @Autowired
-    private TarefaRepository repository;
+    private TarefaRepository tarefaRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    @GetMapping("mostrar/{idUsuario}")
-    public ResponseEntity getTarefasByUsuario(@PathVariable Long idUsuario){
-        List<Tarefa> tarefas = repository.findByUsuarioIdUsuario(idUsuario);
+    @GetMapping("mostrar")
+    public ResponseEntity getTarefasByUsuarioAutenticado(){
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        Usuario usuario = usuarioRepository.findByLogin(login);
+        if (usuario == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        List<Tarefa> tarefas = tarefaRepository.findByUsuarioIdUsuario(usuario.getIdUsuario());
         List<TarefaResponseDTO> tarefaList = tarefas.stream().map(TarefaResponseDTO::new).toList();
         return ResponseEntity.ok(tarefaList);
     }
@@ -38,13 +50,13 @@ public class TarefaController {
     @PostMapping("criar")
     public ResponseEntity createTarefa(@RequestBody @Valid TarefaCreateDTO body){
             Tarefa tarefa = new Tarefa(body);
-            this.repository.save(tarefa);
+            this.tarefaRepository.save(tarefa);
             return ResponseEntity.ok().build();
         }
 
         @PutMapping("editar/{id}")
         public ResponseEntity<Void> updateTarefa(@PathVariable Long id, @RequestBody @Valid TarefaRequestDTO body) {
-        Tarefa tarefa = repository.findById(id).orElse(null);
+        Tarefa tarefa = tarefaRepository.findById(id).orElse(null);
 
         if (tarefa == null) {
             return ResponseEntity.notFound().build();
@@ -55,19 +67,19 @@ public class TarefaController {
         tarefa.setPrioridade(body.prioridade());
         tarefa.setPrazo(body.prazo());
 
-        repository.save(tarefa);
+        tarefaRepository.save(tarefa);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("deletar/{id}")
     public ResponseEntity<Void> deleteTarefa(@PathVariable Long id) {
-        Tarefa tarefa = repository.findById(id).orElse(null);
+        Tarefa tarefa = tarefaRepository.findById(id).orElse(null);
 
         if (tarefa == null) {
             return ResponseEntity.notFound().build();
         }
 
-        repository.delete(tarefa);
+        tarefaRepository.delete(tarefa);
         return ResponseEntity.ok().build();
     }
 }
