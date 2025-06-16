@@ -43,6 +43,7 @@ public class Usuario implements UserDetails {
     }
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UsuarioRole role;
 
     public Usuario(UsuarioRequestDTO data){
