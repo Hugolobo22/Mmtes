@@ -19,7 +19,4 @@ public class CompartilhamentoTarefa {
     @ManyToOne
     @JoinColumn(name = "id_usuario_dest")
     private Usuario usuarioDestino;
-
-    @Enumerated(EnumType.STRING)
-    private Permissao permissao;
 }

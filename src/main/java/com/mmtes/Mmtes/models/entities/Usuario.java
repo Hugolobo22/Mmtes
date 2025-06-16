@@ -14,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mmtes.Mmtes.dtos.UsuarioRequestDTO;
 
 @Table(name = "usuario")
 @Entity (name = "usuario")
