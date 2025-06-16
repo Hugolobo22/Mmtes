@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 import com.mmtes.Mmtes.dtos.AuthenticationDTO;
+import com.mmtes.Mmtes.dtos.LoginResponseDTO;
 import com.mmtes.Mmtes.dtos.RegisterDTO;
+import com.mmtes.Mmtes.infra.security.TokenService;
 import com.mmtes.Mmtes.models.entities.Usuario;
 import com.mmtes.Mmtes.repository.UsuarioRepository;
 
@@ -24,13 +26,17 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UsuarioRepository repository;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
