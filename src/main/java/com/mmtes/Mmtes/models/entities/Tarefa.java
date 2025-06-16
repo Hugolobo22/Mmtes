@@ -23,7 +23,7 @@ public class Tarefa {
     private Long id_tarefa;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario;
 
     private String titulo;

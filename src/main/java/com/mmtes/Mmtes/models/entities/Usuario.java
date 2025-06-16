@@ -20,13 +20,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id_usuario")
+@EqualsAndHashCode(of = "idUsuario")
 public class Usuario implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    @Column(name = "id_usuario")
+    private Long idUsuario;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String nome;
 
     @Column(nullable = false, unique = true)

@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 public record TarefaCreateDTO(
     @NotBlank String titulo,
     @NotBlank String descricao,
-    @NotBlank Long id_usuario,
+    @NotBlank Long idUsuario,
     @NotBlank Prioridade prioridade,
     @NotBlank Date prazo, 
     Date data_criacao

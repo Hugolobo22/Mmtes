@@ -28,9 +28,9 @@ public class TarefaController {
     @Autowired
     private TarefaRepository repository;
 
-    @GetMapping("mostrar/{id_usuario}")
-    public ResponseEntity getTarefasByUsuario(@PathVariable Long id_usuario){
-        List<Tarefa> tarefas = repository.findByUsuarioId_usuario(Long id_usuario);
+    @GetMapping("mostrar/{idUsuario}")
+    public ResponseEntity getTarefasByUsuario(@PathVariable Long idUsuario){
+        List<Tarefa> tarefas = repository.findByUsuarioIdUsuario(idUsuario);
         List<TarefaResponseDTO> tarefaList = tarefas.stream().map(TarefaResponseDTO::new).toList();
         return ResponseEntity.ok(tarefaList);
     }

@@ -13,7 +13,7 @@ public class Categoria {
     private Long id_categoria;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario usuario;
 
     private String nome;

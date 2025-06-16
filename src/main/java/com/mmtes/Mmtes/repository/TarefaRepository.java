@@ -9,5 +9,5 @@ import com.mmtes.Mmtes.models.entities.Tarefa;
 
 @Repository
 public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
-    List<Tarefa> findByUsuarioId_usuario(Long id_usuario);
+    List<Tarefa> findByUsuarioIdUsuario(Long idUsuario);
 }
