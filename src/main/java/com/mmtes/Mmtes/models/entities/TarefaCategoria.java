@@ -13,11 +13,11 @@ public class TarefaCategoria {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_tarefa")
+    @JoinColumn(name = "idTarefa")
     private Tarefa tarefa;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_categoria")
+    @JoinColumn(name = "idCategoria")
     private Categoria categoria;
 }

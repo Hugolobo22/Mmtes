@@ -1,7 +1,6 @@
 package com.mmtes.Mmtes.models.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.Date;
@@ -16,11 +15,18 @@ import com.mmtes.Mmtes.dtos.TarefaRequestDTO;
 public class Tarefa {
 
     public Tarefa(TarefaRequestDTO body) {}
-    public Tarefa(TarefaCreateDTO body) {}
+    public Tarefa(TarefaCreateDTO body, Usuario usuario) {
+        this.titulo = body.titulo();
+        this.descricao = body.descricao();
+        this.usuario = usuario;
+        this.prioridade = body.prioridade();
+        this.prazo = body.prazo();
+        this.data_criacao = new Date();
+    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tarefa;
+    private Long idTarefa;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
@@ -31,6 +37,10 @@ public class Tarefa {
 
     @Enumerated(EnumType.STRING)
     private Prioridade prioridade;
+
+    @OneToOne
+    @JoinColumn(name = "idCategoria", nullable = false) 
+    private Categoria categoria;
 
     private Date prazo;
     private Boolean concluida = false;

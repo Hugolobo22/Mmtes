@@ -49,7 +49,14 @@ public class TarefaController {
 
     @PostMapping("criar")
     public ResponseEntity createTarefa(@RequestBody @Valid TarefaCreateDTO body){
-            Tarefa tarefa = new Tarefa(body);
+            var authentication = SecurityContextHolder.getContext().getAuthentication();
+            String login = authentication.getName();
+            Usuario usuario = usuarioRepository.findByLogin(login);
+            if (usuario == null) {
+                return ResponseEntity.status(401).build();
+            }
+
+            Tarefa tarefa = new Tarefa(body, usuario);
             this.tarefaRepository.save(tarefa);
             return ResponseEntity.ok().build();
         }

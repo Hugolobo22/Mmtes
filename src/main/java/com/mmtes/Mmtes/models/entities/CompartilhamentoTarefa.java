@@ -13,7 +13,7 @@ public class CompartilhamentoTarefa {
     private Long id_compartilhamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_tarefa")
+    @JoinColumn(name = "idTarefa")
     private Tarefa tarefa;
 
     @ManyToOne
