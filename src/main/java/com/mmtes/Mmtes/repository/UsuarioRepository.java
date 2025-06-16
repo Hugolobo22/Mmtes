@@ -9,5 +9,5 @@ import com.mmtes.Mmtes.models.entities.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
-    UserDetails findByEmail(String email);
+    UserDetails findByLogin(String login);
 }

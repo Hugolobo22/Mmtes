@@ -4,9 +4,9 @@ import com.mmtes.Mmtes.models.entities.Usuario;
 
 import java.time.LocalDateTime;
 
-public record UsuarioRequestDTO(String nome, String email, String senha, LocalDateTime dataCadastro) {
+public record UsuarioRequestDTO(String nome, String login, String password, LocalDateTime dataCadastro) {
 
     public UsuarioRequestDTO(Usuario usuario){
-        this(usuario.getNome(), usuario.getEmail(), usuario.getSenha(),usuario.getDataCadastro());
+        this(usuario.getNome(), usuario.getLogin(), usuario.getPassword(),usuario.getDataCadastro());
     }
 }

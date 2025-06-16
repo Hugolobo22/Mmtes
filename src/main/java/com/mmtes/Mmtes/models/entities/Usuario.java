@@ -31,10 +31,10 @@ public class Usuario implements UserDetails {
     private String nome;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String login;
 
     @Column(nullable = false)
-    private String senha;
+    private String password;
 
     @Column(name = "data_cadastro", nullable = false)
     private LocalDateTime dataCadastro = LocalDateTime.now();
@@ -46,10 +46,10 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UsuarioRole role;
 
-    public Usuario(UsuarioRequestDTO data){
-        this.nome = data.nome();
-        this.email = data.email();
-        this.senha = data.senha();
+    public Usuario(String login, String password, UsuarioRole role){
+      this.login = login;
+      this.password = password;
+      this.role = role;
     }
 
     @Override
