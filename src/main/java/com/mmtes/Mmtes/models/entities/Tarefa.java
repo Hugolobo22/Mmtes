@@ -17,13 +17,14 @@ import lombok.NoArgsConstructor;
 public class Tarefa {
 
     public Tarefa(TarefaRequestDTO body) {}
-    public Tarefa(TarefaCreateDTO body, Usuario usuario) {
+    public Tarefa(TarefaCreateDTO body, Usuario usuario, Categoria categoria) {
         this.titulo = body.titulo();
         this.descricao = body.descricao();
         this.usuario = usuario;
         this.prioridade = body.prioridade();
         this.prazo = body.prazo();
         this.data_criacao = new Date();
+         this.categoria = categoria;
     }
     
     @Id

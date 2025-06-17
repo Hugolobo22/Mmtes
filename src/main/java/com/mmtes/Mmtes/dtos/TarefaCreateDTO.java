@@ -11,5 +11,6 @@ public record TarefaCreateDTO(
     Long idUsuario,
     Prioridade prioridade,
     Date prazo, 
-    Date data_criacao
+    Date data_criacao,
+    Long idCategoria
 ) {}
