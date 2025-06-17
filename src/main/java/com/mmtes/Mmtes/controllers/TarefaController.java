@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mmtes.Mmtes.dtos.TarefaCreateDTO;
 import com.mmtes.Mmtes.dtos.TarefaRequestDTO;
 import com.mmtes.Mmtes.dtos.TarefaResponseDTO;
+import com.mmtes.Mmtes.models.entities.Categoria;
 import com.mmtes.Mmtes.models.entities.Tarefa;
+import com.mmtes.Mmtes.repository.CategoriaRepository;
 import com.mmtes.Mmtes.repository.TarefaRepository;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,8 @@ public class TarefaController {
     private TarefaRepository tarefaRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @GetMapping("mostrar")
     public ResponseEntity getTarefasByUsuarioAutenticado(){
@@ -56,7 +60,10 @@ public class TarefaController {
                 return ResponseEntity.status(401).build();
             }
 
-            Tarefa tarefa = new Tarefa(body, usuario);
+            Categoria categoria = categoriaRepository.findById(body.idCategoria())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+            Tarefa tarefa = new Tarefa(body, usuario, categoria);
             this.tarefaRepository.save(tarefa);
             return ResponseEntity.ok().build();
         }
