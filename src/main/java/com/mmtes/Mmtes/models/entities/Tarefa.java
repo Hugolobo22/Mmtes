@@ -7,11 +7,13 @@ import java.util.Date;
 
 import com.mmtes.Mmtes.dtos.TarefaCreateDTO;
 import com.mmtes.Mmtes.dtos.TarefaRequestDTO;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tarefa")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Tarefa {
 
     public Tarefa(TarefaRequestDTO body) {}

@@ -5,11 +5,13 @@ import com.mmtes.Mmtes.dtos.CategoriaCreateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "categoria")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Categoria {
 
     @Id
