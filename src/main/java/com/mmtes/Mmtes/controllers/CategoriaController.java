@@ -34,7 +34,7 @@ public class CategoriaController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @GetMapping("mostrar")
+    @GetMapping("/mostrar")
     public ResponseEntity getCategoriaByUsuarioAutenticado() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
@@ -48,7 +48,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaList);
     }
     
-    @PostMapping("criar")
+    @PostMapping("/criar")
     public ResponseEntity createCategoria(@RequestBody @Valid CategoriaCreateDTO body){
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
